@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('auth')->group(function () {
-    Route::post('login', 'AuthController@login');
+    // TODO: Add Auth routes
 });
 
 Route::prefix('articles')->group(function () {
