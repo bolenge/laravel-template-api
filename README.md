@@ -2,7 +2,7 @@
 
 ## About
 
-This is a RESTful API template with Laravel. A good number of elements are configured and put in place to facilitate development instead of starting from scratch.
+This is a RESTful API template with Laravel. A good number of elements are configured and put in place to facilitate development instead of starting from scratch, Using <a href="https://jwt-auth.readthedocs.io/" target="_blank">JWT Authenticator</a>
 
 ## Installation
 
