@@ -34,9 +34,9 @@ jobs:
       run: php artisan db:seed
     - name: Clear cache
       run: |
-        php artisan config:cache
-        php artisan config:clear
         php artisan jwt:secret
+        php artisan config:cache
+        php artisan optimize
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
