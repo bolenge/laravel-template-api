@@ -1,0 +1,101 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Services\Service;
+use App\Http\Requests\Create{{ class }}Request;
+use App\Http\Requests\Update{{ class }}Request;
+use App\Repositories\{{ class }}Repository;
+
+class {{ class }}Service extends Service
+{
+  const NO_CONTENT_EXISTS_MESSAGE = "This record does not exist";
+  const NO_CONTENT_FOUND_MESSAGE = "No records found";
+  const NO_CONTENT_FOUND_STATUS = 204;
+
+  protected ${{ class }}Repository;
+
+  public function __construct({{ class }}Repository ${{ class }}Repository)
+  {
+    $this->{{ class }}Repository = ${{ class }}Repository;
+  }
+
+  public function store(Create{{ class }}Request $request)
+  {
+    if ($request->failed()) {
+      return $this->requestFailed($request);
+    }
+
+    try {
+      ${{ class }} = $this->{{ class }}Repository->store($request->all());
+
+      return $this->responseJson(${{ class }}, true, '{{ class }} successfully created.', 201);
+    } catch (\Throwable $th) {
+      return $this->respondInternalErrorCatch($th);
+    }
+  }
+
+  public function getAll{{ class }}s()
+  {
+    try {
+      ${{ class }}s = $this->{{ class }}Repository->getAll();
+
+      if (empty(${{ class }}s)) {
+        return $this->responseJson(${{ class }}s, false, self::NO_CONTENT_FOUND_MESSAGE, self::NO_CONTENT_FOUND_STATUS);
+      }
+
+      return $this->responseJson(${{ class }}s, true, '{{ class }}s found');
+    } catch (\Throwable $exception) {
+      return $this->respondInternalErrorCatch($exception);
+    }
+  }
+
+  public function get{{ class }}ById($id)
+  {
+    try {
+      ${{ class }} = $this->{{ class }}Repository->findById($id);
+
+      if (empty(${{ class }})) {
+        return $this->responseJson(${{ class }}, false, self::NO_CONTENT_FOUND_MESSAGE, self::NO_CONTENT_FOUND_STATUS);
+      }
+
+      return $this->responseJson(${{ class }}, true, '{{ class }} found');
+    } catch (\Throwable $exception) {
+      return $this->respondInternalErrorCatch($exception);
+    }
+  }
+
+  public function update{{ class }}(Update{{ class }}Request $request, $id)
+  {
+    if ($request->failed()) {
+      return $this->requestFailed($request);
+    }
+
+    try {
+      if ($exists = $this->{{ class }}Repository->exists($id)) {
+        $this->{{ class }}Repository->update($request->all(), $id);
+      }
+
+      return $exists
+          ? $this->responseJson($exists, true, '{{ class }} updated')
+          : $this->responseJson($exists, false, self::NO_CONTENT_EXISTS_MESSAGE, self::NO_CONTENT_FOUND_STATUS);
+    } catch (\Throwable $exception) {
+      return $this->respondInternalErrorCatch($exception);
+    }
+  }
+
+  public function delete{{ class }}ById($id)
+  {
+    try {
+      if ($exists = $this->{{ class }}Repository->exists($id)) {
+        $this->{{ class }}Repository->delete($id);
+      }
+
+      return $exists
+        ? $this->responseJson($exists, true, '{{ class }} deleted')
+        : $this->responseJson($exists, false, self::NO_CONTENT_EXISTS_MESSAGE, self::NO_CONTENT_FOUND_STATUS);
+    } catch (\Throwable $exception) {
+      return $this->respondInternalErrorCatch($exception);
+    }
+  }
+}
