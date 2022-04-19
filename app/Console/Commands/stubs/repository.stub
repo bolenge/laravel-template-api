@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Repositories\Repository;
+use App\Models\{{ class }};
+use App\Contracts\RepositoryInterface;
+
+class {{ class }}Repository extends Repository implements RepositoryInterface
+{
+ /**
+  * {{ class }} model
+  * @var {{ class }}
+  */
+  protected $model;
+
+  protected $relationships = [];
+
+  public function __construct({{ class }} $model)
+  {
+    $this->model = $model;
+  }
+}
