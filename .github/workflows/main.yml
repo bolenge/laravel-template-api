@@ -35,7 +35,7 @@ jobs:
     - name: Clear cache
       run: |
         php artisan config:cache
-        php artisan cache:config
+        php artisan config:clear
         php artisan jwt:secret
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
