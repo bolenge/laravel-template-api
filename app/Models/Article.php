@@ -10,7 +10,9 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
+        'body',
         'title',
-        'body'
+        'cover',
+        'official_date'
     ];
 }
