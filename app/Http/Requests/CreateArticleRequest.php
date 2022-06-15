@@ -14,6 +14,8 @@ class CreateArticleRequest extends ValidatorRequest
         return [
             'title' => 'required|string',
             'body' => 'required|string',
+            'official_date' => 'nullable',
+            'cover' => 'nullable'
         ];
     }
 }
