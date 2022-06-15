@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateArticleRequest;
 use App\Models\Article;
+use App\Services\ArticleService;
+use App\Http\Requests\CreateArticleRequest;
 
 class ArticleController extends Controller
 {
+    private $articleService;
+    
+    public function __construct(ArticleService $articleService)
+    {
+        $this->articleService =  $articleService;
+    }
+
     public function store(CreateArticleRequest $request)
     {
-        $articleCreated = Article::create($request->all());
-
-        return response()->json($articleCreated, 201);
+        return $this->articleService->store($request);
     }
 }
