@@ -57,6 +57,11 @@ class ValidatorRequest extends FormRequest {
     $this->errors = collect($validator->errors()->all())->join(', ');
   }
 
+  public function handleValidationException(Validator $validator)
+  {
+    $this->failedValidation($validator);
+  }
+
   /**
    * Returns true if there are errors in the validation
    * @return bool
