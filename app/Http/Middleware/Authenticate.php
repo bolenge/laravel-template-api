@@ -29,11 +29,7 @@ class Authenticate extends Middleware
     {
         $authenticateResult = $this->authenticate($request, $guards);
 
-        if (!$this->authenticated) {
-            return $authenticateResult;
-        }
-
-        return $next($request);
+        return !$this->authenticated ? $authenticateResult : $next($request);
     }
 
     /**
@@ -47,9 +43,7 @@ class Authenticate extends Middleware
      */
     protected function authenticate($request, array $guards)
     {
-        if (empty($guards)) {
-            $guards = [null];
-        }
+        $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
             if ($this->auth->guard($guard)->check()) {
@@ -75,18 +69,5 @@ class Authenticate extends Middleware
         $this->responseObject['message'] = "Please authenticate!";
 
         return response()->json($this->responseObject, 401);
-    }
-
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return string|null
-     */
-    protected function redirectTo($request)
-    {
-        if (! $request->expectsJson()) {
-            return route('login');
-        }
     }
 }
