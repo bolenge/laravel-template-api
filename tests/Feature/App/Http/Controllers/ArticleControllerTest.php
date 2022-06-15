@@ -14,6 +14,7 @@ class ArticleControllerTest extends TestCase
     use RefreshDatabase;
 
     private $inputs;
+    private $defaultRoute = '/api/articles';
 
     public function setUp() : void
     {
@@ -27,7 +28,7 @@ class ArticleControllerTest extends TestCase
 
     public function test_can_create_new_article()
     {
-        $response = $this->post('/api/articles', $this->inputs);
+        $response = $this->post($this->defaultRoute, $this->inputs);
         $response->assertStatus(201);
         $this->assertEquals(1, Article::count());
 
@@ -41,7 +42,7 @@ class ArticleControllerTest extends TestCase
     {
         $this->inputs['title'] = '';
 
-        $response = $this->json('POST', '/api/articles', $this->inputs);
+        $response = $this->json('POST', $this->defaultRoute, $this->inputs);
         $response->assertStatus(422);
         $this->assertEquals(0, Article::count());
     }
@@ -50,7 +51,7 @@ class ArticleControllerTest extends TestCase
     {
         $this->inputs['cover'] = "Hello";
 
-        $response = $this->json('POST', '/api/articles', $this->inputs);
+        $response = $this->json('POST', $this->defaultRoute, $this->inputs);
         $response->assertStatus(500);
     }
 
@@ -59,7 +60,7 @@ class ArticleControllerTest extends TestCase
         $filename = 'icon-css.jpg';
         $this->inputs['cover'] = new UploadedFile(resource_path('test-files/' . $filename), $filename);
 
-        $response = $this->json('POST', '/api/articles', $this->inputs);
+        $response = $this->json('POST', $this->defaultRoute, $this->inputs);
         $response->assertStatus(201);
     }
 }
