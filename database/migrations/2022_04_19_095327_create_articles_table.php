@@ -17,6 +17,8 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('body');
+            $table->string('cover')->nullable();
+            $table->timestamp('official_date')->nullable();
             $table->string('image_path')->nullable();
             $table->timestamps();
         });
