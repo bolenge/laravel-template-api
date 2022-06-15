@@ -55,6 +55,12 @@ php artisan storage:link
 php artisan db:seed
 ```
 
+* Run tests
+
+```bash
+php artisan test
+```
+
 * Start server
 
 ```bash
